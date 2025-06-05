@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Chat App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="app-container" id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Chat App</h2>
+                <div class="user-info" id="user-info">
+                    <span class="username">Loading...</span>
+                    <span class="status-indicator online"></span>
+                </div>
+            </div>
+
+            <!-- User status -->
+            <div class="status-container">
+                <div class="dropdown">
+                    <button class="status-dropdown-button">
+                        <span id="current-status">Available</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content" id="status-dropdown">
+                        <a href="#" data-status="online">Available</a>
+                        <a href="#" data-status="away">Away</a>
+                        <a href="#" data-status="busy">Busy</a>
+                        <a href="#" data-status="offline">Appear Offline</a>
+                        <hr>
+                        <a href="#" id="custom-status">Set Custom Status...</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search box -->
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search messages...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <!-- Chat list -->
+            <div class="chat-list" id="chat-list">
+                <!-- Chat items will be added dynamically -->
+                <div class="chat-item active">
+                    <div class="chat-item-avatar">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="chat-item-info">
+                        <div class="chat-item-name">General</div>
+                        <div class="chat-item-last-message">Welcome to the general chat</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User list -->
+            <div class="user-list-container">
+                <h3>Online Users</h3>
+                <div class="user-list" id="user-list">
+                    <!-- User items will be added dynamically -->
+                </div>
+            </div>
+
+            <!-- Theme toggle and settings -->
+            <div class="sidebar-footer">
+                <div class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-sun"></i>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="settings-button" id="settings-button">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="logout-button" id="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main chat area -->
+        <main class="chat-area" id="chat-area">
+            <header class="chat-header" id="chat-header">
+                <h2>General Chat</h2>
+                <div class="chat-header-info">
+                    <span id="users-typing"></span>
+                </div>
+            </header>
+
+            <div class="messages-container" id="messages-container">
+                <!-- Messages will be added dynamically -->
+                <div class="welcome-message">
+                    <h3>Welcome to the chat!</h3>
+                    <p>Start sending messages to communicate with others.</p>
+                </div>
+            </div>
+
+            <!-- Reply preview will be shown here when replying -->
+            <div class="reply-preview" id="reply-preview" style="display: none;">
+                <div class="reply-icon">
+                    <i class="fas fa-reply"></i>
+                </div>
+                <div class="reply-content">
+                    <div class="reply-header">
+                        <span class="replying-to">Replying to</span>
+                        <span id="reply-username" class="reply-username">User</span>
+                    </div>
+                    <div id="reply-text" class="reply-text">Message</div>
+                </div>
+                <button id="cancel-reply" class="cancel-reply-button" aria-label="Cancel reply">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="message-input-container">
+                <textarea 
+                    id="message-input" 
+                    placeholder="Type a message..."
+                    rows="1"
+                ></textarea>
+                <div class="message-actions">
+                    <button id="emoji-button" class="action-button">
+                        <i class="far fa-smile"></i>
+                    </button>
+                    <button id="send-button" class="primary-action-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Settings modal -->
+        <div class="modal" id="settings-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <h3>Theme</h3>
+                    <div class="theme-options">
+                        <button class="theme-option" data-theme="light">Light</button>
+                        <button class="theme-option" data-theme="dark">Dark</button>
+                        <button class="theme-option" data-theme="blue">Blue</button>
+                        <button class="theme-option" data-theme="green">Green</button>
+                    </div>
+                    
+                    <h3>Notifications</h3>
+                    <div class="setting-row">
+                        <label for="notification-toggle">Enable notifications</label>
+                        <label class="switch">
+                            <input type="checkbox" id="notification-toggle" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    
+                    <!-- Admin settings will be shown only for admins -->
+                    <div id="admin-settings" style="display: none;">
+                        <h3>Admin Settings</h3>
+                        <div class="admin-actions">
+                            <button id="add-user-button" class="admin-button">
+                                Add New User
+                            </button>
+                            <button id="view-connections-button" class="admin-button">
+                                View Active Connections
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User info modal -->
+        <div class="modal" id="user-info-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-username">User</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="user-info-details">
+                        <div class="status-badge" id="modal-status">Online</div>
+                        <p id="modal-last-seen">Last seen: Just now</p>
+                    </div>
+                    <button id="send-direct-message" class="action-button">
+                        <i class="fas fa-comment"></i> Send Message
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emoji picker (will be implemented with JavaScript) -->
+        <div class="emoji-picker" id="emoji-picker" style="display: none;"></div>
+        
+        <!-- Add User Modal -->
+        <div class="modal" id="add-user-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New User</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div id="add-user-message" class="form-message"></div>
+                    <form id="add-user-form">
+                        <div class="form-group">
+                            <label for="new-username">Username</label>
+                            <input type="text" id="new-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">Password</label>
+                            <input type="password" id="new-password" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="cancel-button" id="cancel-add-user">Cancel</button>
+                            <button type="submit" class="submit-button">Create User</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add socket.io and other scripts -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="/js/models/user-model.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/chat.js"></script>
+</body>
+</html>

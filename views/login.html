@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Real-Time Chat App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Real-Time Chat</h1>
+                <p>Sign in to continue</p>
+            </div>
+
+            <div class="form-container">
+                <div class="form-toggle">
+                    <button id="login-toggle" class="active">Login</button>
+                    <button style="display: none;" id="register-toggle">Register</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input
+                            type="text"
+                            id="login-username"
+                            required
+                            placeholder="Enter your username"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="password-input">
+                            <input
+                                type="password"
+                                id="login-password"
+                                required
+                                placeholder="Enter your password"
+                            >
+                            <i class="fas fa-eye-slash toggle-password"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-button">Login</button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" style="display: none;">
+                    <div class="form-group">
+                        <label for="register-username">Username</label>
+                        <input
+                            type="text"
+                            id="register-username"
+                            required
+                            placeholder="Choose a username"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <div class="password-input">
+                            <input
+                                type="password"
+                                id="register-password"
+                                required
+                                placeholder="Choose a password"
+                            >
+                            <i class="fas fa-eye-slash toggle-password"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirm Password</label>
+                        <div class="password-input">
+                            <input
+                                type="password"
+                                id="register-confirm-password"
+                                required
+                                placeholder="Confirm your password"
+                            >
+                            <i class="fas fa-eye-slash toggle-password"></i>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-button">Register</button>
+                </form>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+
+            <div class="login-footer">
+               
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+</html>
